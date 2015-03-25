@@ -65,5 +65,18 @@ vertical ((x1,y1),(x2,y2)) | (x1 == x2) = True
 checkReta :: Float -> Reta -> Float
 checkReta x ((x1,y1),(x2,y2))  = (((y2-y1) / (x2-x1))*(x - x1))+y1
 
+
 livros :: BancoDados -> Pessoa -> [Livro]
-livros b pessoa = [l | (p,l) <- b , p == pessoa]
+livros ls pp = [l | (p,l) <- ls, pp ==p]
+
+emprestimos :: BancoDados -> Livro -> [Pessoa]
+emprestimos ls ll = [p | (p,l) <- ls, ll ==l]
+
+emprestado :: BancoDados -> Livro -> Bool
+emprestado ls ll = (length (emprestimos ls ll)) >= 1
+
+qtdEmprestimos :: BancoDados -> Pessoa -> Int
+qtdEmprestimos ls pp = length (emprestimos ls pp)
+
+devolver :: BancoDados -> Pessoa -> Livro -> BancoDados
+devolver ls pp ll = [curr | curr <- ls , (fst(curr) /= pp) && (snd(curr) /= ll)]
